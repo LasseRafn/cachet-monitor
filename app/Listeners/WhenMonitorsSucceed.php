@@ -18,7 +18,7 @@ class WhenMonitorsSucceed
 	{
 		$component = Component::whereLink( $event->monitor->url )->first();
 
-		if ( $component )
+		if ( $component && $component->status !== 1 )
 		{
 			$component->status = 1;
 			$component->save();
