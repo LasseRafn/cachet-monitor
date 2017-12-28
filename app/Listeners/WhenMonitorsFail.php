@@ -16,13 +16,6 @@ class WhenMonitorsFail
 		$component = Component::whereLink( $event->monitor->url )->first();
 
 		if ( $component ) {
-			/** @var Incident $latestIncident */
-			if ( (int) $component->status === 2 && $latestIncident = $component->incidents()->whereNull('deleted_at')->whereName( 'Uptime Monitor' )->whereStatus( 2 )->latest()->first() ) {
-				if ( $latestIncident->message === ( $event->monitor->uptime_check_failure_reason ?? '' ) ) {
-					return;
-				}
-			}
-
 			Auth::login( User::first() );
 
 			dispatch( new CreateIncidentCommand(
